@@ -1,43 +1,98 @@
-import React from 'react';
-import { BsCurrencyDollar } from 'react-icons/bs';
-import { GoPrimitiveDot } from 'react-icons/go';
-import { IoIosMore } from 'react-icons/io';
-import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
-
-import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
-import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData, PetStats, productStats } from '../data/dummy';
-import { useStateContext } from '../contexts/ContextProvider';
-import product9 from '../data/product9.jpg';
+import React, { useEffect, useState } from "react";
+import { AiOutlineUser } from "react-icons/ai";
+import { BiStore } from "react-icons/bi";
+import { BsBox } from "react-icons/bs";
+import { IoIosMore } from "react-icons/io";
+import { MdOutlinePets } from "react-icons/md";
+import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
+import { Stacked, Pie, Button, LineChart, SparkLine } from "../components";
+import {
+  earningData,
+  medicalproBranding,
+  recentTransactions,
+  weeklyStats,
+  dropdownData,
+  SparklineAreaData,
+  ecomPieChartData,
+  PetStats,
+  productStats,
+} from "../data/dummy";
+import { useStateContext } from "../contexts/ContextProvider";
+import product9 from "../data/product9.jpg";
+import { Helmet } from "react-helmet";
+import axios from "../contexts/axios";
 
 const DropDown = ({ currentMode }) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
-    <DropDownListComponent id="time" fields={{ text: 'Time', value: 'Id' }} style={{ border: 'none', color: (currentMode === 'Dark') && 'white' }} value="1" dataSource={dropdownData} popupHeight="220px" popupWidth="120px" />
+    <DropDownListComponent
+      id="time"
+      fields={{ text: "Time", value: "Id" }}
+      style={{ border: "none", color: currentMode === "Dark" && "white" }}
+      value="1"
+      dataSource={dropdownData}
+      popupHeight="220px"
+      popupWidth="120px"
+    />
   </div>
 );
 
 const Dashboar = () => {
   const { currentColor, currentMode } = useStateContext();
+  const [totalPets, setTotalPets] = useState([]);
+
+  const getTotalPets = async () => {
+    const response = await axios.get("dashboard/dataadmin");
+    // console.log(response.data[0].data)
+    setTotalPets(response.data[0].data);
+  };
+
+  useEffect(() => {
+    getTotalPets();
+  }, []);
+
+  function Icon({ iconName }) {
+    if (iconName === "MdOutlinePets") {
+      return <MdOutlinePets />;
+    } else if (iconName === "BsBox") {
+      return <BsBox />;
+    } else if (iconName === "BiStore") {
+      return <BiStore />;
+    } else if (iconName === "AiOutlineUser") {
+      return <AiOutlineUser />;
+    } else {
+      return null;
+    }
+  }
 
   return (
     <div className="mt-24">
+      <Helmet>
+        <title>Dasbor | Happypets</title>
+      </Helmet>
+
       <div className="flex flex-wrap lg:flex-nowrap justify-center ">
         <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
-          {earningData.map((item) => (
-            <div key={item.title} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-72 w-4/5 p-4 pt-9 mx-3 rounded-2xl ">
-              <button
-                type="button"
-                style={{ color: item.iconColor, backgroundColor: item.iconBg }}
-                className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
-              >
-                {item.icon}
-              </button>
-              <p className="mt-3">
-                <span className="text-lg font-semibold">{item.amount}</span>
-                <span className={`text-sm text-${item.pcColor} ml-2`}>
-                {item.percentage}
-                </span>
-              </p>
-              <p className="text-sm text-gray-400  mt-1">{item.title}</p>
+          {totalPets.map((item, key) => (
+            <div
+              key={key}
+              className="bg-gray-200 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-72 w-4/5 p-4 mx-3 rounded-2xl "
+            >
+              <div className="flex flex-wrap items-center">
+                <button
+                  type="button"
+                  style={{
+                    color: item.iconColor,
+                    backgroundColor: item.iconBg,
+                  }}
+                  className="text-2xl opacity-0.9 rounded-full p-4 hover:drop-shadow-xl mr-3"
+                >
+                  <Icon iconName={item.icon} />
+                </button>
+                <div>
+                  <span className="text-lg font-semibold">{item.amount}</span>
+                  <p className="text-sm text-gray-400  mt-1">{item.title}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -100,14 +155,20 @@ const Dashboar = () => {
         <div className="md:w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
           <div className="flex justify-between">
             <p className="text-xl font-semibold">Top 5 Produk Populer</p>
-            <button type="button" className="text-xl font-semibold text-gray-500">
+            <button
+              type="button"
+              className="text-xl font-semibold text-gray-500"
+            >
               <IoIosMore />
             </button>
           </div>
 
           <div className="mt-10 ">
             {weeklyStats.map((item) => (
-              <div key={item.title} className="flex justify-between mt-4 w-full">
+              <div
+                key={item.title}
+                className="flex justify-between mt-4 w-full"
+              >
                 <div className="flex gap-4">
                   <button
                     type="button"
@@ -134,13 +195,19 @@ const Dashboar = () => {
         <div className="w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
           <div className="flex justify-between">
             <p className="text-xl font-semibold">Top 5 Hewan Populer</p>
-            <button type="button" className="text-xl font-semibold text-gray-400">
+            <button
+              type="button"
+              className="text-xl font-semibold text-gray-400"
+            >
               {/* <IoIosMore /> */}
             </button>
           </div>
           <div className="mt-10 ">
             {PetStats.map((item) => (
-              <div key={item.title} className="flex justify-between mt-4 w-full">
+              <div
+                key={item.title}
+                className="flex justify-between mt-4 w-full"
+              >
                 <div className="flex gap-4">
                   <button
                     type="button"
@@ -166,14 +233,20 @@ const Dashboar = () => {
         <div className="md:w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
           <div className="flex justify-between">
             <p className="text-xl font-semibold">Baru saja ditambahkan</p>
-            <button type="button" className="text-xl font-semibold text-gray-500">
+            <button
+              type="button"
+              className="text-xl font-semibold text-gray-500"
+            >
               {/* <IoIosMore /> */}
             </button>
           </div>
 
           <div className="mt-10 ">
             {productStats.map((item) => (
-              <div key={item.title} className="flex justify-between mt-4 w-full">
+              <div
+                key={item.title}
+                className="flex justify-between mt-4 w-full"
+              >
                 <div className="flex gap-4">
                   <button
                     type="button"

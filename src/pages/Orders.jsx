@@ -3,11 +3,16 @@ import { GridComponent, ColumnsDirective, ColumnDirective, Resize, Sort, Context
 
 import { ordersData, contextMenuItems, ordersGrid } from '../data/dummy';
 import { Header } from '../components';
+import { Helmet } from 'react-helmet';
 
 const Orders = () => {
   const editing = { allowDeleting: true, allowEditing: true };
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
+      <Helmet>
+        <title>Pesanan | Happypets</title>
+      </Helmet>
+      
       <Header category="Halaman" title="Pesanan" />
       <GridComponent
         id="gridcomp"
