@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
-import { BiStore } from "react-icons/bi";
+import { BiStore, BiScan, BiBox } from "react-icons/bi";
+import { FiCreditCard } from 'react-icons/fi'
 import { BsBox } from "react-icons/bs";
 import { IoIosMore } from "react-icons/io";
 import { MdOutlinePets } from "react-icons/md";
+import { TbTruckDelivery} from 'react-icons/tb'
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import { Stacked, Pie, Button, LineChart, SparkLine } from "../components";
 import {
@@ -38,16 +40,24 @@ const DropDown = ({ currentMode }) => (
 
 const Dashboar = () => {
   const { currentColor, currentMode } = useStateContext();
-  const [totalPets, setTotalPets] = useState([]);
+  const [dataAdmin, setDataAdmin] = useState([]);
+  const [dataAdmin2, setDataAdmin2] = useState([]);
 
-  const getTotalPets = async () => {
-    const response = await axios.get("dashboard/dataadmin");
+  const getDataAdmin = async () => {
+    const response = await axios.get("dashboard/dataadmin1");
     // console.log(response.data[0].data)
-    setTotalPets(response.data[0].data);
+    setDataAdmin(response.data[0].data);
+  };
+
+  const getDataAdmin2 = async () => {
+    const response = await axios.get("dashboard/dataadmin2");
+    // console.log(response.data[0].data)
+    setDataAdmin2(response.data[0].data);
   };
 
   useEffect(() => {
-    getTotalPets();
+    getDataAdmin();
+    getDataAdmin2()
   }, []);
 
   function Icon({ iconName }) {
@@ -59,6 +69,14 @@ const Dashboar = () => {
       return <BiStore />;
     } else if (iconName === "AiOutlineUser") {
       return <AiOutlineUser />;
+    } else if (iconName === "Bayar Ditoko") {
+      return <BiBox />;
+    } else if (iconName === "Bayar Ditempat") {
+      return <TbTruckDelivery />;
+    } else if (iconName === "Pembayaran Digital") {
+      return <BiScan />;
+    } else if (iconName === "Bank Transfer") {
+      return <FiCreditCard />;
     } else {
       return null;
     }
@@ -72,7 +90,7 @@ const Dashboar = () => {
 
       <div className="flex flex-wrap lg:flex-nowrap justify-center ">
         <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
-          {totalPets.map((item, key) => (
+          {dataAdmin.map((item, key) => (
             <div
               key={key}
               className="bg-gray-200 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-72 w-4/5 p-4 mx-3 rounded-2xl "
@@ -105,25 +123,27 @@ const Dashboar = () => {
             {/* <DropDown currentMode={currentMode} /> */}
           </div>
           <div className="mt-10 w-72 md:w-400">
-            {recentTransactions.map((item) => (
-              <div key={item.title} className="flex justify-between mt-4">
+            {dataAdmin2.map((item, key) => (
+              <div key={key} className="flex justify-between mt-4">
                 <div className="flex gap-4">
                   <button
                     type="button"
                     style={{
-                      color: item.iconColor,
-                      backgroundColor: item.iconBg,
+                      color: "#03C9D7",
+                      backgroundColor: "#E5FAFB",
                     }}
                     className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
                   >
-                    {item.icon}
+                    <Icon iconName={item.paymentCategory} />
                   </button>
                   <div>
-                    <p className="text-md font-semibold">{item.title}</p>
-                    <p className="text-sm text-gray-400">{item.desc}</p>
+                    <p className="text-md font-semibold">{item.paymentName}</p>
+                    <p className="text-sm text-gray-400">{item.paymentCategory}</p>
                   </div>
                 </div>
-                <p className={`text-${item.pcColor}`}>{item.amount}</p>
+                {item.orders.map((data, key)=> (
+                  <p className={`text-green-600`}>Rp{data.total}</p>
+                ))}
               </div>
             ))}
           </div>
