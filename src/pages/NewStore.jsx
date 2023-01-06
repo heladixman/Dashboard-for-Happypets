@@ -11,13 +11,12 @@ import {
 import { BsPlusLg } from "react-icons/bs";
 import { Header } from "../components";
 import { EditorData, storeAddressOption } from "../data/dummy";
-import { Helmet } from "react-helmet";
 
 const NewStore = () => (
   <div className="m-2 md:m-10 my-24 p-2 md:p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
-    <Helmet>
+    {/* <Helmet>
       <title>Tambah Toko | Happypets</title>
-    </Helmet>
+    </Helmet> */}
 
     <Header category="Halaman" title="Tambah Toko Baru" />
     <form action="">
@@ -46,7 +45,9 @@ const NewStore = () => (
           className='mr-2 shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-2/5 p-2.5 dark:bg-secondary-dark-bg dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"'
         >
           {storeAddressOption.map((item, key) => (
-            <option value={item.Name}>{item.Name}</option>
+            <option key={key} value={item.Name}>
+              {item.Name}
+            </option>
           ))}
         </select>
         <input

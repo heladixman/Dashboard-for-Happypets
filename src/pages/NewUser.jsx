@@ -11,14 +11,13 @@ import {
 import { BsPlusLg } from "react-icons/bs";
 import { Header } from "../components";
 import { accountTypeOption } from "../data/dummy";
-import { Helmet } from "react-helmet";
 
 const NewUser = () => {
   return (
     <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
-      <Helmet>
+      {/* <Helmet>
         <title>Tambah Pengguna | Happypets</title>
-      </Helmet>
+      </Helmet> */}
 
       <Header category="Halaman" title="Tambah Pengguna Baru" />
       <div className="w-full">
@@ -91,7 +90,9 @@ const NewUser = () => {
               className='shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-4/5 p-2.5 dark:bg-secondary-dark-bg dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"'
             >
               {accountTypeOption.map((item, key) => (
-                <option value={item.input}>{item.Name}</option>
+                <option key={key} value={item.input}>
+                  {item.Name}
+                </option>
               ))}
             </select>
           </div>

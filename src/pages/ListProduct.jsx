@@ -15,16 +15,15 @@ import {
 } from "@syncfusion/ej2-react-grids";
 import { listProduksData, contextMenuItems, produkGrid } from "../data/dummy";
 import { Header } from "../components";
-import { Helmet } from "react-helmet";
 
 const ListProduct = () => {
   const editing = { allowDeleting: true, allowEditing: true };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
-      <Helmet>
+      {/* <Helmet>
         <title>List Produk | Happypets</title>
-      </Helmet>
+      </Helmet> */}
 
       <Header category="Halaman" title="List Produk" />
       <GridComponent

@@ -17,16 +17,15 @@ import {
 } from "../data/dummy";
 import { ChartsHeader } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
-import { Helmet } from "react-helmet";
 
 const WawasanPeliharaan = () => {
   const { currentMode } = useStateContext();
 
   return (
     <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
-      <Helmet>
+      {/* <Helmet>
         <title>Wawasan Peliharaan | Happypets</title>
-      </Helmet>
+      </Helmet> */}
 
       <ChartsHeader
         category="Wawasan Peliharaan"

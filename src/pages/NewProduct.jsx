@@ -12,13 +12,12 @@ import { FiEdit } from "react-icons/fi";
 import { BsPlusLg } from "react-icons/bs";
 import { Header } from "../components";
 import { EditorData, productCategoryOption } from "../data/dummy";
-import { Helmet } from "react-helmet";
 
 const NewProduct = () => (
   <div className="m-2 md:m-10 my-24 p-2 md:p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
-    <Helmet>
+    {/* <Helmet>
       <title>Tambah Produk | Happypets</title>
-    </Helmet>
+    </Helmet> */}
 
     <Header category="Halaman" title="Tambah Product" />
     <form action="">
